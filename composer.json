@@ -1,0 +1,21 @@
+{
+    "name": "artstorm/monkeylearn-api",
+    "description": "MonkeyLearn API v2 client",
+    "homepage": "https://github.com/artstorm/monkeylearn-api-php",
+    "authors": [
+        {
+            "name": "Johan Steen",
+            "homepage": "https://johansteen.se",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Artstorm\\MonkeyLearn\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
