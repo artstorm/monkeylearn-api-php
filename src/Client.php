@@ -4,7 +4,6 @@ namespace Artstorm\MonkeyLearn;
 
 use BadMethodCallException;
 use InvalidArgumentException;
-use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Client as HttpClient;
 
 class Client
@@ -75,15 +74,6 @@ class Client
         }
 
         return $api;
-    }
-
-    public function apiCall($group)
-    {
-        $request = new Request('GET', $url);
-
-        $response = $this->httpClient->send($request);
-
-        return $response->getBody()->getContents();
     }
 
     /**
