@@ -1,7 +1,9 @@
 {
     "name": "artstorm/monkeylearn-api",
+    "type": "library",
     "description": "MonkeyLearn API v2 client",
     "homepage": "https://github.com/artstorm/monkeylearn-api-php",
+    "keywords": ["monkeylearn", "api"],
     "authors": [
         {
             "name": "Johan Steen",
