@@ -41,8 +41,6 @@ class Client
      * Assign dependencies.
      *
      * @param  string $token
-     *
-     * @return void
      */
     public function __construct($token)
     {
@@ -102,5 +100,25 @@ class Client
         }
 
         return $this->httpClient;
+    }
+
+    /**
+     * Magic method to call API groups directly.
+     *
+     * @param  string $group
+     *
+     * @throws BadMethodCallException
+     *
+     * @return ApiInterface
+     */
+    public function __call($group, $args)
+    {
+        try {
+            return $this->api($group);
+        } catch (InvalidArgumentException $e) {
+            throw new BadMethodCallException(
+                sprintf('Undefined method called: "%s"', $group)
+            );
+        }
     }
 }

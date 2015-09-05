@@ -19,4 +19,14 @@ class ClientTest extends PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('Artstorm\MonkeyLearn\Api\Classification', $api);
     }
+
+    public function testTemporary3()
+    {
+        $token = 'foobar';
+        $client = new Artstorm\MonkeyLearn\Client($token);
+
+        $api = $client->classification();
+
+        $this->assertInstanceOf('Artstorm\MonkeyLearn\Api\Classification', $api);
+    }
 }
