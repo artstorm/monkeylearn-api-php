@@ -6,9 +6,12 @@ use Artstorm\MonkeyLearn\Client;
 
 class ClientTest extends PHPUnit_Framework_TestCase
 {
-    public function testTemporary()
+    /**
+     * @test
+     */
+    public function shouldGetClientInstance()
     {
-        $token = 'foobar';
+        $token = 'token';
         $client = new Client($token);
 
         $this->assertInstanceOf('Artstorm\MonkeyLearn\Client', $client);
@@ -16,7 +19,7 @@ class ClientTest extends PHPUnit_Framework_TestCase
 
     public function testTemporary2()
     {
-        $token = 'foobar';
+        $token = 'token';
         $client = new Client($token);
 
         $api = $client->api('classification');
@@ -26,7 +29,7 @@ class ClientTest extends PHPUnit_Framework_TestCase
 
     public function testTemporary3()
     {
-        $token = 'foobar';
+        $token = 'token';
         $client = new Client($token);
 
         $api = $client->classification();
@@ -41,10 +44,10 @@ class ClientTest extends PHPUnit_Framework_TestCase
      */
     public function shouldNotFindApiGroup()
     {
-        $token = 'foobar';
+        $token = 'token';
         $client = new Client($token);
 
-        $client->api('foobar');
+        $client->api('noGroup');
     }
 
     /**
@@ -54,9 +57,9 @@ class ClientTest extends PHPUnit_Framework_TestCase
      */
     public function shouldNotFindMagicApiGroup()
     {
-        $token = 'foobar';
+        $token = 'token';
         $client = new Client($token);
 
-        $client->foobar();
+        $client->noGroup();
     }
 }
