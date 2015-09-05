@@ -2,6 +2,8 @@
 
 namespace Artstorm\MonkeyLearn;
 
+use BadMethodCallException;
+use InvalidArgumentException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Client as HttpClient;
 

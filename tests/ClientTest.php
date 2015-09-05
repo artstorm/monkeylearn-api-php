@@ -29,4 +29,30 @@ class ClientTest extends PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('Artstorm\MonkeyLearn\Api\Classification', $api);
     }
+
+    /**
+     * @test
+     *
+     * @expectedException InvalidArgumentException
+     */
+    public function shouldNotFindApiGroup()
+    {
+        $token = 'foobar';
+        $client = new Artstorm\MonkeyLearn\Client($token);
+
+        $client->api('foobar');
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException BadMethodCallException
+     */
+    public function shouldNotFindMagicApiGroup()
+    {
+        $token = 'foobar';
+        $client = new Artstorm\MonkeyLearn\Client($token);
+
+        $client->foobar();
+    }
 }
