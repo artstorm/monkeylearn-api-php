@@ -2,9 +2,6 @@
 
 namespace Artstorm\MonkeyLearn\Api;
 
-class Classification
+class Classification extends ApiAbstract
 {
-    public function classify()
-    {
-    }
 }
