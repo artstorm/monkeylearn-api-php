@@ -2,8 +2,13 @@
     "name": "artstorm/monkeylearn-api",
     "type": "library",
     "description": "MonkeyLearn API v2 client",
-    "homepage": "https://github.com/artstorm/monkeylearn-api-php",
     "keywords": ["monkeylearn", "api"],
+    "license": "MIT",
+    "homepage": "https://github.com/artstorm/monkeylearn-api-php",
+    "support": {
+        "issues": "https://github.com/artstorm/monkeylearn-api-php/issues",
+        "source": "https://github.com/artstorm/monkeylearn-api-php"
+    },
     "authors": [
         {
             "name": "Johan Steen",
