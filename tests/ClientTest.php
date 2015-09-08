@@ -60,6 +60,6 @@ class ClientTest extends PHPUnit_Framework_TestCase
         $token = 'token';
         $client = new Client($token);
 
-        $client->noGroup();
+        $client->noGroup;
     }
 }

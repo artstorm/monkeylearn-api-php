@@ -95,7 +95,31 @@ class Client
     }
 
     /**
-     * Magic method to call API groups directly.
+     * Magic method to call API groups directly via method.
+     *
+     * @param  string $group
+     *
+     * @return ApiInterface
+     */
+    public function __call($group, $args)
+    {
+        return $this->getApiObject($group);
+    }
+
+    /**
+     * Magic method to call API groups directly via property.
+     *
+     * @param  string $group
+     *
+     * @return ApiInterface
+     */
+    public function __get($group)
+    {
+        return $this->getApiObject($group);
+    }
+
+    /**
+     * Get Api Group object.
      *
      * @param  string $group
      *
@@ -103,7 +127,7 @@ class Client
      *
      * @return ApiInterface
      */
-    public function __call($group, $args)
+    protected function getApiObject($group)
     {
         try {
             return $this->api($group);
