@@ -3,6 +3,7 @@
 namespace Artstorm\MonkeyLearn;
 
 use BadMethodCallException;
+use GuzzleHttp\Psr7\Request;
 use InvalidArgumentException;
 use GuzzleHttp\Client as HttpClient;
 
@@ -28,6 +29,13 @@ class Client
      * @var string
      */
     protected $token;
+
+    /**
+     * Default request headers.
+     *
+     * @var array
+     */
+    protected $headers = ['content-type' => 'application/json'];
 
     /**
      * Map group name to class names.
@@ -86,12 +94,76 @@ class Client
         if (!$this->httpClient) {
             $this->httpClient = new HttpClient([
                 'base_uri' => self::BASE_URI,
-                'timeout'  => 2.0,
+                'timeout'  => 10.0,
                 'headers' => ['Authorization' => 'Token '.$this->token]
             ]);
         }
 
         return $this->httpClient;
+    }
+
+    /**
+     * Make a POST request.
+     *
+     * @internal
+     *
+     * @param  string $path
+     * @param  mixed  $body
+     * @param  array  $headers
+     *
+     * @return \Guzzle\Http\Message\Request
+     */
+    public function post($path, $body = null, array $headers = [])
+    {
+        return $this->request($path, $body, 'POST', $headers);
+    }
+
+    /**
+     * Send request with HTTP client.
+     *
+     * @param  string $path
+     * @param  mixed  $body
+     * @param  string $method
+     * @param  array  $headers
+     * @param  array  $options
+     *
+     * @throws ServiceUnavailableHttpException
+     *
+     * @return \GuzzleHttp\Psr7\Response
+     */
+    protected function request($path, $body = null, $method = 'GET', array $headers = [], array $options = [])
+    {
+        $request = $this->createRequest($method, $path, $body, $headers, $options);
+
+        // try {
+        $response = $this->httpClient->send($request);
+        // } catch (RequestException $e) {
+        //     throw new ServiceUnavailableHttpException(null, $e->getMessage(), $e, $e->getCode());
+        // }
+
+        return $response;
+    }
+
+    /**
+     * Create request with HTTP client.
+     *
+     * @param  string $method
+     * @param  string $path
+     * @param  mixed  $body
+     * @param  array  $headers
+     * @param  array  $options
+     *
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function createRequest($method, $path, $body = null, array $headers = [], array $options = [])
+    {
+        return new Request(
+            $method,
+            $path,
+            array_merge($this->headers, $headers),
+            $body,
+            $options
+        );
     }
 
     /**
