@@ -3,6 +3,7 @@
 namespace Artstorm\MonkeyLearn;
 
 use BadMethodCallException;
+use GuzzleHttp\Psr7\Request;
 use InvalidArgumentException;
 use GuzzleHttp\Client as HttpClient;
 
@@ -30,6 +31,13 @@ class Client
     protected $token;
 
     /**
+     * Default request headers.
+     *
+     * @var array
+     */
+    protected $headers = ['content-type' => 'application/json'];
+
+    /**
      * Map group name to class names.
      *
      * @var array
@@ -41,13 +49,14 @@ class Client
     /**
      * Assign dependencies.
      *
-     * @param  string $token
+     * @param  string     $token
+     * @param  HttpClient $httpClient
      */
-    public function __construct($token)
+    public function __construct($token, HttpClient $httpClient = null)
     {
         $this->token = $token;
 
-        $this->httpClient = $this->getHttpClient();
+        $this->httpClient = $httpClient;
     }
 
     /**
@@ -79,14 +88,16 @@ class Client
     /**
      * Get the client to use for HTTP communication.
      *
+     * @internal
+     *
      * @return HttpClient
      */
-    protected function getHttpClient()
+    public function getHttpClient()
     {
         if (!$this->httpClient) {
             $this->httpClient = new HttpClient([
                 'base_uri' => self::BASE_URI,
-                'timeout'  => 2.0,
+                'timeout'  => 10.0,
                 'headers' => ['Authorization' => 'Token '.$this->token]
             ]);
         }
@@ -95,7 +106,80 @@ class Client
     }
 
     /**
-     * Magic method to call API groups directly.
+     * Make a POST request.
+     *
+     * @internal
+     *
+     * @param  string $path
+     * @param  mixed  $body
+     * @param  array  $headers
+     *
+     * @return \Guzzle\Http\Message\Request
+     */
+    public function post($path, $body = null, array $headers = [])
+    {
+        return $this->request($path, $body, 'POST', $headers);
+    }
+
+    /**
+     * Send request with HTTP client.
+     *
+     * @param  string $path
+     * @param  mixed  $body
+     * @param  string $method
+     * @param  array  $headers
+     *
+     * @throws ServiceUnavailableHttpException
+     *
+     * @return \GuzzleHttp\Psr7\Response
+     */
+    protected function request($path, $body = null, $method = 'GET', array $headers = [])
+    {
+        $request = $this->createRequest($method, $path, $body, $headers);
+
+        // try {
+        $response = $this->getHttpClient()->send($request);
+        // } catch (RequestException $e) {
+        //     throw new ServiceUnavailableHttpException(null, $e->getMessage(), $e, $e->getCode());
+        // }
+
+        return $response;
+    }
+
+    /**
+     * Create request with HTTP client.
+     *
+     * @param  string $method
+     * @param  string $path
+     * @param  mixed  $body
+     * @param  array  $headers
+     *
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function createRequest($method, $path, $body = null, array $headers = [])
+    {
+        return new Request(
+            $method,
+            $path,
+            array_merge($this->headers, $headers),
+            $body
+        );
+    }
+
+    /**
+     * Magic method to call API groups directly via property.
+     *
+     * @param  string $group
+     *
+     * @return ApiInterface
+     */
+    public function __get($group)
+    {
+        return $this->getApiObject($group);
+    }
+
+    /**
+     * Get Api Group object.
      *
      * @param  string $group
      *
@@ -103,7 +187,7 @@ class Client
      *
      * @return ApiInterface
      */
-    public function __call($group, $args)
+    protected function getApiObject($group)
     {
         try {
             return $this->api($group);
