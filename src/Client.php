@@ -88,6 +88,8 @@ class Client
     /**
      * Get the client to use for HTTP communication.
      *
+     * @internal
+     *
      * @return HttpClient
      */
     public function getHttpClient()
@@ -126,15 +128,14 @@ class Client
      * @param  mixed  $body
      * @param  string $method
      * @param  array  $headers
-     * @param  array  $options
      *
      * @throws ServiceUnavailableHttpException
      *
      * @return \GuzzleHttp\Psr7\Response
      */
-    protected function request($path, $body = null, $method = 'GET', array $headers = [], array $options = [])
+    protected function request($path, $body = null, $method = 'GET', array $headers = [])
     {
-        $request = $this->createRequest($method, $path, $body, $headers, $options);
+        $request = $this->createRequest($method, $path, $body, $headers);
 
         // try {
         $response = $this->getHttpClient()->send($request);
@@ -152,18 +153,16 @@ class Client
      * @param  string $path
      * @param  mixed  $body
      * @param  array  $headers
-     * @param  array  $options
      *
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function createRequest($method, $path, $body = null, array $headers = [], array $options = [])
+    protected function createRequest($method, $path, $body = null, array $headers = [])
     {
         return new Request(
             $method,
             $path,
             array_merge($this->headers, $headers),
-            $body,
-            $options
+            $body
         );
     }
 
