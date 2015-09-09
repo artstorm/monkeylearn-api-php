@@ -32,7 +32,7 @@ class ClientTest extends PHPUnit_Framework_TestCase
         $token = 'token';
         $client = new Client($token);
 
-        $api = $client->classification();
+        $api = $client->classification;
 
         $this->assertInstanceOf('Artstorm\MonkeyLearn\Api\Classification', $api);
     }
