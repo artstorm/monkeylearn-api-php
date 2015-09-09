@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4c0891ed83035169712d39156e794696",
+    "hash": "4209e975e8c26d8b70fa8a1d510c4dd1",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "36e021d6f26185f0a39ed8de509bb6b8f0283d45"
+                "reference": "ef728b658fe6836823aa9e7d673cb08dab216b7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/36e021d6f26185f0a39ed8de509bb6b8f0283d45",
-                "reference": "36e021d6f26185f0a39ed8de509bb6b8f0283d45",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/ef728b658fe6836823aa9e7d673cb08dab216b7d",
+                "reference": "ef728b658fe6836823aa9e7d673cb08dab216b7d",
                 "shasum": ""
             },
             "require": {
@@ -33,7 +33,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "6.0-dev"
+                    "dev-master": "6.1-dev"
                 }
             },
             "autoload": {
@@ -66,7 +66,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2015-08-24 17:09:43"
+            "time": "2015-09-08 20:05:33"
         },
         {
             "name": "guzzlehttp/promises",
@@ -234,7 +234,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.4.0"
+        "php": ">=5.5.0"
     },
     "platform-dev": []
 }
