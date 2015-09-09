@@ -18,7 +18,23 @@ class ClientTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Artstorm\MonkeyLearn\Client', $client);
     }
 
-    public function testTemporary2()
+    /**
+     * @test
+     */
+    public function shouldCreateHttpClient()
+    {
+        $token = 'token';
+        $client = new Client($token);
+
+        $httpClient = $client->getHttpClient();
+
+        $this->assertInstanceOf('GuzzleHttp\Client', $httpClient);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetApiInstanceByApiCall()
     {
         $token = 'token';
         $client = new Client($token);
@@ -28,7 +44,10 @@ class ClientTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Artstorm\MonkeyLearn\Api\Classification', $api);
     }
 
-    public function testTemporary3()
+    /**
+     * @test
+     */
+    public function shouldGetApiInstanceByMagicAttribute()
     {
         $token = 'token';
         $client = new Client($token);

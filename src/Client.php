@@ -90,7 +90,7 @@ class Client
      *
      * @return HttpClient
      */
-    protected function getHttpClient()
+    public function getHttpClient()
     {
         if (!$this->httpClient) {
             $this->httpClient = new HttpClient([
