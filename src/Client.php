@@ -49,13 +49,14 @@ class Client
     /**
      * Assign dependencies.
      *
-     * @param  string $token
+     * @param  string     $token
+     * @param  HttpClient $httpClient
      */
-    public function __construct($token)
+    public function __construct($token, HttpClient $httpClient = null)
     {
         $this->token = $token;
 
-        $this->httpClient = $this->getHttpClient();
+        $this->httpClient = $httpClient ? $httpClient : $this->getHttpClient();
     }
 
     /**
