@@ -14,6 +14,6 @@ class ApiAbstractTestInstance extends ApiAbstract
      */
     public function apiPostCall($path, array $parameters = [])
     {
-        return parent::post($path);
+        return parent::post($path, $parameters);
     }
 }

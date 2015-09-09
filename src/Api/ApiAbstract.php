@@ -87,7 +87,7 @@ abstract class ApiAbstract
      */
     protected function getContent(Response $response)
     {
-        $body = $response->getBody();
+        $body = $response->getBody()->getContents();
         $content = json_decode($body, true);
 
         if (JSON_ERROR_NONE !== json_last_error()) {
