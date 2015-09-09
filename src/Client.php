@@ -56,7 +56,7 @@ class Client
     {
         $this->token = $token;
 
-        $this->httpClient = $httpClient ? $httpClient : $this->getHttpClient();
+        $this->httpClient = $httpClient;
     }
 
     /**
@@ -137,7 +137,7 @@ class Client
         $request = $this->createRequest($method, $path, $body, $headers, $options);
 
         // try {
-        $response = $this->httpClient->send($request);
+        $response = $this->getHttpClient()->send($request);
         // } catch (RequestException $e) {
         //     throw new ServiceUnavailableHttpException(null, $e->getMessage(), $e, $e->getCode());
         // }
