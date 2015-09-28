@@ -9,25 +9,27 @@ class Response
      *
      * @var string
      */
-    protected $contents;
+    protected $body;
 
     /**
      * Assign dependencies.
      *
-     * @param string $contents
+     * @param int    $status
+     * @param array  $headers
+     * @param string $body
      */
-    public function __construct($contents)
+    public function __construct($status = 200, array $headers = [], $body = null)
     {
-        $this->contents = $contents;
+        $this->body = $body;
     }
 
     /**
-     * Get contents.
+     * Get body.
      *
      * @return string
      */
-    public function getContents()
+    public function getBody()
     {
-        return $this->contents;
+        return $this->body;
     }
 }

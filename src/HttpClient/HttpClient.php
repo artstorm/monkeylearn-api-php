@@ -19,7 +19,6 @@ class HttpClient implements HttpClientInterface
     public function __construct(array $config = [])
     {
         $this->config = $config;
-        // $this->base = $config['base_uri'];
     }
 
     /**
@@ -113,7 +112,7 @@ class HttpClient implements HttpClientInterface
             echo "cURL Error: " . curl_error($ch);
         }
 
-        return new Response($result);
+        return new Response(200, [], $result);
     }
 
     /**
