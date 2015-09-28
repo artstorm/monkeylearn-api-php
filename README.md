@@ -8,5 +8,5 @@
 
 ## Requirements
 
-* PHP >= 5.5.0.
-* [Guzzle](https://github.com/guzzle/guzzle) library.
+* PHP >= 5.4.0.
+* PHP Curl.
