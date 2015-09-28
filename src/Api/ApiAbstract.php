@@ -2,7 +2,7 @@
 
 namespace Artstorm\MonkeyLearn\Api;
 
-use GuzzleHttp\Psr7\Response;
+use Artstorm\MonkeyLearn\HttpClient\Response;
 use Artstorm\MonkeyLearn\Client;
 
 abstract class ApiAbstract
@@ -53,7 +53,7 @@ abstract class ApiAbstract
      */
     protected function postRaw($path, $body, array $headers = [])
     {
-        $response = $this->client->post(
+        $response = $this->client->getHttpClient()->post(
             $path,
             $body,
             $headers
@@ -87,7 +87,7 @@ abstract class ApiAbstract
      */
     protected function getContent(Response $response)
     {
-        $body = $response->getBody()->getContents();
+        $body = $response->getBody();
         $content = json_decode($body, true);
 
         if (JSON_ERROR_NONE !== json_last_error()) {

@@ -3,9 +3,9 @@
 namespace Artstorm\MonkeyLearn;
 
 use BadMethodCallException;
-use GuzzleHttp\Psr7\Request;
 use InvalidArgumentException;
-use GuzzleHttp\Client as HttpClient;
+use Artstorm\MonkeyLearn\HttpClient\HttpClient;
+use Artstorm\MonkeyLearn\HttpClient\HttpClientInterface;
 
 class Client
 {
@@ -19,7 +19,7 @@ class Client
     /**
      * HTTP client used for communication.
      *
-     * @var HttpClient
+     * @var HttpClientInterface
      */
     protected $httpClient;
 
@@ -29,13 +29,6 @@ class Client
      * @var string
      */
     protected $token;
-
-    /**
-     * Default request headers.
-     *
-     * @var array
-     */
-    protected $headers = ['content-type' => 'application/json'];
 
     /**
      * Map group name to class names.
@@ -49,10 +42,10 @@ class Client
     /**
      * Assign dependencies.
      *
-     * @param  string     $token
-     * @param  HttpClient $httpClient
+     * @param  string              $token
+     * @param  HttpClientInterface $httpClient
      */
-    public function __construct($token, HttpClient $httpClient = null)
+    public function __construct($token, HttpClientInterface $httpClient = null)
     {
         $this->token = $token;
 
@@ -90,80 +83,21 @@ class Client
      *
      * @internal
      *
-     * @return HttpClient
+     * @return HttpClientInterface
      */
     public function getHttpClient()
     {
         if (!$this->httpClient) {
             $this->httpClient = new HttpClient([
                 'base_uri' => self::BASE_URI,
-                'timeout'  => 10.0,
-                'headers' => ['Authorization' => 'Token '.$this->token]
+                'headers' => [
+                    'Authorization' => 'Token '.$this->token,
+                    'content-type' => 'application/json'
+                ]
             ]);
         }
 
         return $this->httpClient;
-    }
-
-    /**
-     * Make a POST request.
-     *
-     * @internal
-     *
-     * @param  string $path
-     * @param  mixed  $body
-     * @param  array  $headers
-     *
-     * @return \Guzzle\Http\Message\Request
-     */
-    public function post($path, $body = null, array $headers = [])
-    {
-        return $this->request($path, $body, 'POST', $headers);
-    }
-
-    /**
-     * Send request with HTTP client.
-     *
-     * @param  string $path
-     * @param  mixed  $body
-     * @param  string $method
-     * @param  array  $headers
-     *
-     * @throws ServiceUnavailableHttpException
-     *
-     * @return \GuzzleHttp\Psr7\Response
-     */
-    protected function request($path, $body = null, $method = 'GET', array $headers = [])
-    {
-        $request = $this->createRequest($method, $path, $body, $headers);
-
-        // try {
-        $response = $this->getHttpClient()->send($request);
-        // } catch (RequestException $e) {
-        //     throw new ServiceUnavailableHttpException(null, $e->getMessage(), $e, $e->getCode());
-        // }
-
-        return $response;
-    }
-
-    /**
-     * Create request with HTTP client.
-     *
-     * @param  string $method
-     * @param  string $path
-     * @param  mixed  $body
-     * @param  array  $headers
-     *
-     * @return \GuzzleHttp\Psr7\Request
-     */
-    protected function createRequest($method, $path, $body = null, array $headers = [])
-    {
-        return new Request(
-            $method,
-            $path,
-            array_merge($this->headers, $headers),
-            $body
-        );
     }
 
     /**
