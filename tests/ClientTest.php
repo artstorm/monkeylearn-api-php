@@ -1,9 +1,9 @@
 <?php
 namespace Artstorm\MonkeyLearn\Tests;
 
-use GuzzleHttp\Psr7\Response;
 use PHPUnit_Framework_TestCase;
 use Artstorm\MonkeyLearn\Client;
+use Artstorm\MonkeyLearn\HttpClient\Response;
 
 class ClientTest extends PHPUnit_Framework_TestCase
 {
@@ -28,7 +28,7 @@ class ClientTest extends PHPUnit_Framework_TestCase
 
         $httpClient = $client->getHttpClient();
 
-        $this->assertInstanceOf('GuzzleHttp\Client', $httpClient);
+        $this->assertInstanceOf('Artstorm\MonkeyLearn\HttpClient\HttpClient', $httpClient);
     }
 
     /**
@@ -88,16 +88,16 @@ class ClientTest extends PHPUnit_Framework_TestCase
      */
     public function shouldSendPostRequest()
     {
-        $httpClient = $this->getMock('GuzzleHttp\Client', ['send']);
+        $httpClient = $this->getMock('Artstorm\MonkeyLearn\HttpClient\HttpClient', ['send']);
         $httpClient
             ->expects($this->any())
             ->method('send')
-            ->willReturn(new Response);
+            ->willReturn(new Response(''));
         $token = 'token';
 
         $client = new Client($token, $httpClient);
-        $response = $client->post('a-path');
+        $response = $client->getHttpClient()->post('a-path');
 
-        $this->assertInstanceOf('GuzzleHttp\Psr7\Response', $response);
+        $this->assertInstanceOf('Artstorm\MonkeyLearn\HttpClient\Response', $response);
     }
 }

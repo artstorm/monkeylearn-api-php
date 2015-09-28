@@ -1,9 +1,9 @@
 <?php
 namespace Artstorm\MonkeyLearn\Tests\Api;
 
-use GuzzleHttp\Psr7\Response;
 use PHPUnit_Framework_TestCase;
 use Artstorm\MonkeyLearn\Client;
+use Artstorm\MonkeyLearn\HttpClient\Response;
 
 class ApiAbstractTest extends PHPUnit_Framework_TestCase
 {
@@ -14,7 +14,7 @@ class ApiAbstractTest extends PHPUnit_Framework_TestCase
     {
         $response = $response ? $response : json_encode(['a body']);
 
-        $httpClient = $this->getMock('GuzzleHttp\Client', ['send']);
+        $httpClient = $this->getMock('Artstorm\MonkeyLearn\HttpClient\HttpClient', ['send']);
         $httpClient
             ->expects($this->any())
             ->method('send')
