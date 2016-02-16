@@ -19,7 +19,6 @@ class HttpClient implements HttpClientInterface
     public function __construct(array $config = [])
     {
         $this->config = $config;
-
     }
 
     /**
