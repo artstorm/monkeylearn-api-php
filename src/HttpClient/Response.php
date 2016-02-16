@@ -12,6 +12,13 @@ class Response
     protected $status;
 
     /**
+     * Headers.
+     *
+     * @var array
+     */
+    protected $headers;
+
+    /**
      * Contents.
      *
      * @var string
@@ -28,6 +35,7 @@ class Response
     public function __construct($status = 200, array $headers = [], $body = null)
     {
         $this->status = $status;
+        $this->headers = $headers;
         $this->body = $body;
     }
 
