@@ -96,10 +96,8 @@ class HttpClient implements HttpClientInterface
         $client->setOption(CURLOPT_POST, true);
         $client->setOption(CURLOPT_POSTFIELDS, $request->getBody());
 
-        $result = $client->execute();
-
-        if ($result === false) {
-            return new Response(500, [], 'cURL Error: '.$client->error());
+        if (!$result = $client->execute()) {
+            $result = 'cURL Error: '.$client->error();
         }
 
         $client->close();
