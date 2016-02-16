@@ -5,6 +5,20 @@ namespace Artstorm\MonkeyLearn\HttpClient;
 class Response
 {
     /**
+     * HTTP Status code
+     *
+     * @int
+     */
+    protected $status;
+
+    /**
+     * Headers.
+     *
+     * @var array
+     */
+    protected $headers;
+
+    /**
      * Contents.
      *
      * @var string
@@ -20,6 +34,8 @@ class Response
      */
     public function __construct($status = 200, array $headers = [], $body = null)
     {
+        $this->status = $status;
+        $this->headers = $headers;
         $this->body = $body;
     }
 
@@ -31,5 +47,15 @@ class Response
     public function getBody()
     {
         return $this->body;
+    }
+
+    /**
+     * Get HTTP status code.
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

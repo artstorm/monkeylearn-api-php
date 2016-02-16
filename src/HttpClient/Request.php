@@ -40,7 +40,7 @@ class Request
      * @param array  $headers
      * @param string $body
      */
-    public function __construct($method, $path, array $headers = [], $body)
+    public function __construct($method, $path, array $headers = [], $body = '')
     {
         $this->method = $method;
         $this->path = $path;
