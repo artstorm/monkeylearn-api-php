@@ -23,8 +23,8 @@ class HttpClientTest extends PHPUnit_Framework_TestCase
      */
     public function shouldGetResponse()
     {
-        $client = new HttpClient();
-        $request = new Request('get', 'http://google.com');
+        $client = new HttpClient(['base_uri' => 'http://google.com']);
+        $request = new Request('get', '');
         $response = $client->send($request);
 
         $this->assertEquals(200, $response->getStatus());
@@ -36,7 +36,7 @@ class HttpClientTest extends PHPUnit_Framework_TestCase
     public function shouldGetError()
     {
         $client = new HttpClient();
-        $request = new Request('get', '/');
+        $request = new Request('get', '/', ['aheader' => 'foo']);
         $response = $client->send($request);
 
         $this->assertContains('cURL Error', $response->getBody());
