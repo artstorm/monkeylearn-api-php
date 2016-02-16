@@ -19,6 +19,7 @@ class HttpClient implements HttpClientInterface
     public function __construct(array $config = [])
     {
         $this->config = $config;
+
     }
 
     /**
@@ -43,20 +44,12 @@ class HttpClient implements HttpClientInterface
      * @param  string $method
      * @param  array  $headers
      *
-     * @throws ServiceUnavailableHttpException
-     *
      * @return Response
      */
     protected function request($path, $body = null, $method = 'GET', array $headers = [])
     {
         $request = $this->createRequest($method, $path, $body, $headers);
-
-        // try {
-        // $response = $this->getHttpClient()->send($request);
         $response = $this->send($request);
-        // } catch (RequestException $e) {
-        //     throw new ServiceUnavailableHttpException(null, $e->getMessage(), $e, $e->getCode());
-        // }
 
         return $response;
     }
@@ -91,26 +84,26 @@ class HttpClient implements HttpClientInterface
      */
     public function send(Request $request)
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->buildUri($request->getPath()));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $client = new CurlClient;
+        $client->setOption(CURLOPT_URL, $this->buildUri($request->getPath()));
+        $client->setOption(CURLOPT_RETURNTRANSFER, true);
 
         $headers = [];
         foreach ($request->getHeaders() as $key => $value) {
             array_push($headers, sprintf('%s: %s', $key, $value));
         }
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        $client->setOption(CURLOPT_HTTPHEADER, $headers);
 
-        curl_setopt($ch, CURLOPT_POST, true);
-        // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $request->getBody());
+        $client->setOption(CURLOPT_POST, true);
+        $client->setOption(CURLOPT_POSTFIELDS, $request->getBody());
 
-        $result = curl_exec($ch);
-        curl_close($ch);
+        $result = $client->execute();
 
         if ($result === false) {
-            echo "cURL Error: " . curl_error($ch);
+            return new Response(500, [], 'cURL Error: '.$client->error());
         }
+
+        $client->close();
 
         return new Response(200, [], $result);
     }
