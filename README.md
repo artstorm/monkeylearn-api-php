@@ -6,6 +6,14 @@
 [![StyleCI](https://styleci.io/repos/31837635/shield?style=flat-square)](https://styleci.io/repos/31837635)
 
 
+## Install
+
+Via Composer
+
+``` bash
+$ composer require artstorm/monkeylearn-api
+```
+
 ## Requirements
 
 * PHP >= 5.4.0.
