@@ -29,6 +29,5 @@
             "Artstorm\\MonkeyLearn\\": "src/",
             "Artstorm\\MonkeyLearn\\Tests\\": "tests/"
         }
-    },
-    "minimum-stability": "dev"
+    }
 }
