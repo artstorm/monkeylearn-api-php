@@ -16,7 +16,7 @@ class HttpClient implements HttpClientInterface
      *
      * @var array
      */
-    protected $headers = [];
+    protected $responseHeaders = [];
 
     /**
      * Assign dependencies.
@@ -93,13 +93,7 @@ class HttpClient implements HttpClientInterface
         $client = new CurlClient;
         $client->setOption(CURLOPT_URL, $this->buildUri($request->getPath()));
         $client->setOption(CURLOPT_RETURNTRANSFER, true);
-
-        $headers = [];
-        foreach ($request->getHeaders() as $key => $value) {
-            array_push($headers, sprintf('%s: %s', $key, $value));
-        }
-        $client->setOption(CURLOPT_HTTPHEADER, $headers);
-
+        $client->setOption(CURLOPT_HTTPHEADER, $this->getRequestHeaders($request));
         $client->setOption(CURLOPT_POST, true);
         $client->setOption(CURLOPT_POSTFIELDS, $request->getBody());
         $client->setOption(CURLOPT_HEADERFUNCTION, [&$this, 'headerCallback']);
@@ -110,7 +104,7 @@ class HttpClient implements HttpClientInterface
 
         $client->close();
 
-        return new Response(200, $this->headers, $result);
+        return new Response(200, $this->responseHeaders, $result);
     }
 
     /**
@@ -123,7 +117,30 @@ class HttpClient implements HttpClientInterface
      */
     public function headerCallback($curl, $header)
     {
+        $pair = explode(': ', $header);
+        // We're only interested in the headers that forms a pair
+        if (count($pair) == 2) {
+            array_push($this->responseHeaders, [reset($pair) => end($pair)]);
+        }
+
         return strlen($header);
+    }
+
+    /**
+     * Prepare the request headers to be sent.
+     *
+     * @param  Request $request
+     * @param  array   $headers
+     *
+     * @return array
+     */
+    protected function getRequestHeaders(Request $request, $headers = [])
+    {
+        foreach ($request->getHeaders() as $key => $value) {
+            array_push($headers, sprintf('%s: %s', $key, $value));
+        }
+
+        return $headers;
     }
 
     /**
