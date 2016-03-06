@@ -123,12 +123,6 @@ class HttpClient implements HttpClientInterface
      */
     public function headerCallback($curl, $header)
     {
-        $pair = explode(': ', $header);
-        // We're only interested in the headers that forms a pair
-        if (count($pair) == 2) {
-            array_push($this->headers, [reset($pair) => end($pair)]);
-        }
-
         return strlen($header);
     }
 
