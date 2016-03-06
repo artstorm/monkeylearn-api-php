@@ -48,4 +48,20 @@ class ResponseTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals('some content', $this->response->getHeaders()['header']);
     }
+
+    /**
+     * @test
+     */
+    public function shouldGetHeader()
+    {
+        $this->assertEquals('999', $this->response->getHeader('second-header'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetNullHeader()
+    {
+        $this->assertNull($this->response->getHeader('none-existing-header'));
+    }
 }

@@ -62,10 +62,24 @@ class Response
     /**
      * Get response headers.
      *
-     * @return string
+     * @return array
      */
     public function getHeaders()
     {
         return $this->headers;
+    }
+
+    /**
+     * Get a response header by key.
+     *
+     * @param  string $key
+     *
+     * @return string
+     */
+    public function getHeader($key)
+    {
+        if (array_key_exists($key, $this->headers)) {
+            return $this->headers[$key];
+        }
     }
 }
