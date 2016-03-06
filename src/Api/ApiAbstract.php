@@ -59,7 +59,7 @@ abstract class ApiAbstract
             $headers
         );
 
-        return $this->getContent($response);
+        return $this->getResponse($response);
     }
 
     /**
@@ -79,13 +79,13 @@ abstract class ApiAbstract
     }
 
     /**
-     * Extracts the content from the response.
+     * Extracts the relevant content from the response.
      *
      * @param  Response $response
      *
      * @return array|mixed
      */
-    protected function getContent(Response $response)
+    protected function getResponse(Response $response)
     {
         $body = $response->getBody();
         $content = json_decode($body, true);
@@ -94,6 +94,24 @@ abstract class ApiAbstract
             return $body;
         }
 
+        // Add remainin query limits to the response
+        $content['limits'] = $this->getQueryLimitHeaders($response);
+
         return $content;
+    }
+
+    protected function getQueryLimitHeaders(Response $response, array $limits = [])
+    {
+        $headers = [
+            'X-Query-Limit-Limit',
+            'X-Query-Limit-Remaining',
+            'X-Query-Limit-Request-Queries'
+        ];
+
+        foreach ($headers as $header) {
+            $limits[$header] = $response->getHeader($header);
+        }
+
+        return $limits;
     }
 }

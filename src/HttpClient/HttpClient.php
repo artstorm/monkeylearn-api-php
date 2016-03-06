@@ -120,7 +120,7 @@ class HttpClient implements HttpClientInterface
         $pair = explode(': ', $header);
         // We're only interested in the headers that forms a pair
         if (count($pair) == 2) {
-            array_push($this->responseHeaders, [reset($pair) => end($pair)]);
+            $this->responseHeaders[reset($pair)] = end($pair);
         }
 
         return strlen($header);
@@ -134,7 +134,7 @@ class HttpClient implements HttpClientInterface
      *
      * @return array
      */
-    protected function getRequestHeaders(Request $request, $headers = [])
+    protected function getRequestHeaders(Request $request, array $headers = [])
     {
         foreach ($request->getHeaders() as $key => $value) {
             array_push($headers, sprintf('%s: %s', $key, $value));
