@@ -12,6 +12,13 @@ class HttpClient implements HttpClientInterface
     protected $config;
 
     /**
+     * Headers returned in the response.
+     *
+     * @var array
+     */
+    protected $headers = [];
+
+    /**
      * Assign dependencies.
      *
      * @param array $config
@@ -95,6 +102,7 @@ class HttpClient implements HttpClientInterface
 
         $client->setOption(CURLOPT_POST, true);
         $client->setOption(CURLOPT_POSTFIELDS, $request->getBody());
+        $client->setOption(CURLOPT_HEADERFUNCTION, [&$this, 'headerCallback']);
 
         if (!$result = $client->execute()) {
             $result = 'cURL Error: '.$client->error();
@@ -102,7 +110,26 @@ class HttpClient implements HttpClientInterface
 
         $client->close();
 
-        return new Response(200, [], $result);
+        return new Response(200, $this->headers, $result);
+    }
+
+    /**
+     * Callback to store response headers.
+     *
+     * @param  resource $curl
+     * @param  string   $header
+     *
+     * @return int
+     */
+    public function headerCallback($curl, $header)
+    {
+        $pair = explode(': ', $header);
+        // We're only interested in the headers that forms a pair
+        if (count($pair) == 2) {
+            array_push($this->headers, [reset($pair) => end($pair)]);
+        }
+
+        return strlen($header);
     }
 
     /**

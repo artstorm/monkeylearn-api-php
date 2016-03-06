@@ -58,4 +58,14 @@ class Response
     {
         return $this->status;
     }
+
+    /**
+     * Get response headers.
+     *
+     * @return string
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
+    }
 }
