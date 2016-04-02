@@ -20,7 +20,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase
                 'second-header' => '999',
                 'X-Query-Limit-Limit' => 123
             ],
-            'a body'
+            '{ "result": "something" }'
         );
 
         parent::setUp();
@@ -39,7 +39,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase
      */
     public function shouldGetBody()
     {
-        $this->assertEquals('a body', $this->response->getBody());
+        $this->assertContains('something', $this->response->getBody());
     }
 
     /**
@@ -72,5 +72,13 @@ class ResponseTest extends PHPUnit_Framework_TestCase
     public function shouldGetLimits()
     {
         $this->assertEquals(123, $this->response->limits()['X-Query-Limit-Limit']);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetResult()
+    {
+        $this->assertEquals('something', $this->response->result());
     }
 }
