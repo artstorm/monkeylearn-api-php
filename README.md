@@ -30,10 +30,12 @@ $client = new Artstorm\MonkeyLearn\Client($token);
 $textToClassify = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
 $module = 'module_id';
 $response = $client->classification->classify($textToClassify, $module);
+
+print_r($response->result());
 ```
 
 
-## Debug and Sandbox
+### Debug and Sandbox
 
 MonkeyLearn has a Sandbox mode that can be used for custom modules. There is 
 also an option to include debug data in the responses. These options can be 
@@ -44,4 +46,16 @@ are chainable.
 $response = $client->sandbox()->classification->classify($text, $module);
 $response = $client->debug()->classification->classify($text, $module);
 $response = $client->sandbox()->debug()->classification->classify($text, $module);
+```
+
+
+### Query Limits
+
+To find out current query limits with MonkeyLearn API, that information is 
+available in the response object.
+
+``` php
+$response = $client->classification->classify($text, $module);
+
+$limits = $response->limits();
 ```

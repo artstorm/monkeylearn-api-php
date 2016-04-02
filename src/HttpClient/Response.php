@@ -55,10 +55,7 @@ class Response
             return $body;
         }
 
-        // Add remainin query limits to the response
-        $content['limits'] = $this->getQueryLimitHeaders();
-
-        return $content;
+        return $content['result'];
     }
 
     /**
@@ -68,7 +65,7 @@ class Response
      *
      * @return array
      */
-    protected function getQueryLimitHeaders(array $limits = [])
+    public function limits(array $limits = [])
     {
         $headers = [
             'X-Query-Limit-Limit',
