@@ -162,7 +162,7 @@ class HttpClient implements HttpClientInterface
      *
      * @return string
      */
-    private function buildUri($uri)
+    protected function buildUri($uri)
     {
         // Prepare any existing options
         if (array_key_exists('options', $this->config)) {

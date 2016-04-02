@@ -4,6 +4,7 @@ namespace Artstorm\MonkeyLearn\Tests;
 use PHPUnit_Framework_TestCase;
 use Artstorm\MonkeyLearn\Client;
 use Artstorm\MonkeyLearn\HttpClient\Response;
+use Artstorm\MonkeyLearn\HttpClient\HttpClient;
 
 class ClientTest extends PHPUnit_Framework_TestCase
 {
@@ -99,5 +100,43 @@ class ClientTest extends PHPUnit_Framework_TestCase
         $response = $client->getHttpClient()->post('a-path');
 
         $this->assertInstanceOf('Artstorm\MonkeyLearn\HttpClient\Response', $response);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldEnableDebugMode()
+    {
+        // Bind the protected method for public access, so we can test it
+        $httpClient = new \Artstorm\MonkeyLearn\HttpClient\HttpClient;
+        $buildUri = function ($uri) {
+            return $this->buildUri($uri);
+        };
+        $uri = $buildUri->bindTo($httpClient, $httpClient);
+
+        $token = 'token';
+        $client = new Client($token, $httpClient);
+        $client->debug();
+
+        $this->assertContains('debug=1', $uri('an-uri'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldEnableSandboxMode()
+    {
+        // Bind the protected method for public access, so we can test it
+        $httpClient = new \Artstorm\MonkeyLearn\HttpClient\HttpClient;
+        $buildUri = function ($uri) {
+            return $this->buildUri($uri);
+        };
+        $uri = $buildUri->bindTo($httpClient, $httpClient);
+
+        $token = 'token';
+        $client = new Client($token, $httpClient);
+        $client->sandbox();
+
+        $this->assertContains('sandbox=1', $uri('an-uri'));
     }
 }
