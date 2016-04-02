@@ -164,12 +164,15 @@ class HttpClient implements HttpClientInterface
      */
     private function buildUri($uri)
     {
-        // Append possible options to the uri
+        // Prepare any existing options
         if (array_key_exists('options', $this->config)) {
+            $options = [];
             foreach ($this->config['options'] as $option) {
                 $options[$option] = '1';
             }
         }
+
+        // Add any existing options as a query string
         if (isset($options)) {
             $query = http_build_query($options);
             $uri = $uri.'?'.$query;
