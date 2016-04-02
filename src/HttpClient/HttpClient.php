@@ -29,6 +29,18 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
+     * Adds an option to config options array
+     *
+     * @param  string $option
+     *
+     * @return void
+     */
+    public function addConfigOption($option)
+    {
+        $this->config['options'][] = $option;
+    }
+
+    /**
      * Make a POST request.
      *
      * @param  string $path
@@ -152,6 +164,17 @@ class HttpClient implements HttpClientInterface
      */
     private function buildUri($uri)
     {
+        // Append possible options to the uri
+        if (array_key_exists('options', $this->config)) {
+            foreach ($this->config['options'] as $option) {
+                $options[$option] = '1';
+            }
+        }
+        if (isset($options)) {
+            $query = http_build_query($options);
+            $uri = $uri.'?'.$query;
+        }
+
         if (isset($this->config['base_uri'])) {
             return $this->config['base_uri'].$uri;
         }
