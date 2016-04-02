@@ -42,8 +42,6 @@ class Response
     /**
      * Extracts the relevant content from the response.
      *
-     * @param  Response $response
-     *
      * @return array|mixed
      */
     public function result()
