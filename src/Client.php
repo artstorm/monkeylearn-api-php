@@ -101,6 +101,30 @@ class Client
     }
 
     /**
+     * Enables debug data in responses.
+     *
+     * @return $this
+     */
+    public function debug()
+    {
+        $this->getHttpClient()->addConfigOption('debug');
+
+        return $this;
+    }
+
+    /**
+     * Enables sandbox mode for custom modules.
+     *
+     * @return $this
+     */
+    public function sandbox()
+    {
+        $this->getHttpClient()->addConfigOption('sandbox');
+
+        return $this;
+    }
+
+    /**
      * Magic method to call API groups directly via property.
      *
      * @param  string $group

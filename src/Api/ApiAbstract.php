@@ -31,7 +31,7 @@ abstract class ApiAbstract
      * @param  array  $parameters
      * @param  array  $headers
      *
-     * @return array
+     * @return Response
      */
     protected function post($path, array $parameters = [], array $headers = [])
     {
@@ -49,17 +49,15 @@ abstract class ApiAbstract
      * @param  mixed  $body
      * @param  array  $headers
      *
-     * @return array
+     * @return Response
      */
     protected function postRaw($path, $body, array $headers = [])
     {
-        $response = $this->client->getHttpClient()->post(
+        return $this->client->getHttpClient()->post(
             $path,
             $body,
             $headers
         );
-
-        return $this->getContent($response);
     }
 
     /**
@@ -76,24 +74,5 @@ abstract class ApiAbstract
         }
 
         return json_encode($parameters);
-    }
-
-    /**
-     * Extracts the content from the response.
-     *
-     * @param  Response $response
-     *
-     * @return array|mixed
-     */
-    protected function getContent(Response $response)
-    {
-        $body = $response->getBody();
-        $content = json_decode($body, true);
-
-        if (JSON_ERROR_NONE !== json_last_error()) {
-            return $body;
-        }
-
-        return $content;
     }
 }

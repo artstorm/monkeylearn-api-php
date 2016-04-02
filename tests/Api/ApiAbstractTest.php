@@ -36,7 +36,7 @@ class ApiAbstractTest extends PHPUnit_Framework_TestCase
 
         $response = $api->apiPostCall('a-path');
 
-        $this->assertTrue(is_array($response));
+        $this->assertInstanceOf('Artstorm\MonkeyLearn\HttpClient\Response', $response);
     }
 
     /**
@@ -48,7 +48,7 @@ class ApiAbstractTest extends PHPUnit_Framework_TestCase
 
         $response = $api->apiPostCall('a-path', ['key' => 'value']);
 
-        $this->assertTrue(is_array($response));
+        $this->assertInstanceOf('Artstorm\MonkeyLearn\HttpClient\Response', $response);
     }
 
     /**
@@ -60,6 +60,6 @@ class ApiAbstractTest extends PHPUnit_Framework_TestCase
 
         $response = $api->apiPostCall('a-path', ['key' => 'value']);
 
-        $this->assertTrue(is_string($response));
+        $this->assertTrue(is_string($response->result()));
     }
 }
