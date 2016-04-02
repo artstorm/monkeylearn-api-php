@@ -170,10 +170,8 @@ class HttpClient implements HttpClientInterface
             foreach ($this->config['options'] as $option) {
                 $options[$option] = '1';
             }
-        }
 
-        // Add any existing options as a query string
-        if (isset($options)) {
+            // Append options as querystring
             $query = http_build_query($options);
             $uri = $uri.'?'.$query;
         }
