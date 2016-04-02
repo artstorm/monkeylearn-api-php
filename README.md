@@ -5,6 +5,7 @@
 [![Scrutinizer Coverage Status](https://img.shields.io/scrutinizer/coverage/g/artstorm/monkeylearn-api-php/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/artstorm/monkeylearn-api-php/code-structure)
 [![StyleCI](https://styleci.io/repos/31837635/shield?style=flat-square)](https://styleci.io/repos/31837635)
 
+An easy to use client to consume MonkeyLearn API v2 with PHP.
 
 ## Install
 
@@ -18,3 +19,15 @@ $ composer require artstorm/monkeylearn-api
 
 * PHP >= 5.4.0.
 * PHP Curl.
+
+
+## Basic usage of MonkeyLearn API PHP Cleint
+
+``` php
+$token = 'monkeylearn-api-token';
+$client = new Artstorm\MonkeyLearn\Client($token);
+
+$textToClassify = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+$module = 'module_id';
+$response = $client->classification->classify($textToClassify, $module);
+```
