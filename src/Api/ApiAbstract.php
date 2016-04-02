@@ -31,7 +31,7 @@ abstract class ApiAbstract
      * @param  array  $parameters
      * @param  array  $headers
      *
-     * @return array
+     * @return Response
      */
     protected function post($path, array $parameters = [], array $headers = [])
     {
@@ -49,17 +49,15 @@ abstract class ApiAbstract
      * @param  mixed  $body
      * @param  array  $headers
      *
-     * @return array
+     * @return Response
      */
     protected function postRaw($path, $body, array $headers = [])
     {
-        $response = $this->client->getHttpClient()->post(
+        return $this->client->getHttpClient()->post(
             $path,
             $body,
             $headers
         );
-
-        return $this->getResponse($response);
     }
 
     /**
@@ -76,42 +74,5 @@ abstract class ApiAbstract
         }
 
         return json_encode($parameters);
-    }
-
-    /**
-     * Extracts the relevant content from the response.
-     *
-     * @param  Response $response
-     *
-     * @return array|mixed
-     */
-    protected function getResponse(Response $response)
-    {
-        $body = $response->getBody();
-        $content = json_decode($body, true);
-
-        if (JSON_ERROR_NONE !== json_last_error()) {
-            return $body;
-        }
-
-        // Add remainin query limits to the response
-        $content['limits'] = $this->getQueryLimitHeaders($response);
-
-        return $content;
-    }
-
-    protected function getQueryLimitHeaders(Response $response, array $limits = [])
-    {
-        $headers = [
-            'X-Query-Limit-Limit',
-            'X-Query-Limit-Remaining',
-            'X-Query-Limit-Request-Queries'
-        ];
-
-        foreach ($headers as $header) {
-            $limits[$header] = $response->getHeader($header);
-        }
-
-        return $limits;
     }
 }
