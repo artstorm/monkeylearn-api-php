@@ -17,9 +17,10 @@ class ResponseTest extends PHPUnit_Framework_TestCase
             200,
             [
                 'header' => 'some content',
-                'second-header' => '999'
+                'second-header' => '999',
+                'X-Query-Limit-Limit' => 123
             ],
-            'a body'
+            '{ "result": "something" }'
         );
 
         parent::setUp();
@@ -38,7 +39,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase
      */
     public function shouldGetBody()
     {
-        $this->assertEquals('a body', $this->response->getBody());
+        $this->assertContains('something', $this->response->getBody());
     }
 
     /**
@@ -63,5 +64,21 @@ class ResponseTest extends PHPUnit_Framework_TestCase
     public function shouldGetNullHeader()
     {
         $this->assertNull($this->response->getHeader('none-existing-header'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetLimits()
+    {
+        $this->assertEquals(123, $this->response->limits()['X-Query-Limit-Limit']);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetResult()
+    {
+        $this->assertEquals('something', $this->response->result());
     }
 }

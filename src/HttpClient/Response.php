@@ -40,6 +40,45 @@ class Response
     }
 
     /**
+     * Extracts the relevant content from the response.
+     *
+     * @return array|mixed
+     */
+    public function result()
+    {
+        $body = $this->body;
+        $content = json_decode($body, true);
+
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            return $body;
+        }
+
+        return $content['result'];
+    }
+
+    /**
+     * Get query limit headers.
+     *
+     * @param  array  $limits
+     *
+     * @return array
+     */
+    public function limits(array $limits = [])
+    {
+        $headers = [
+            'X-Query-Limit-Limit',
+            'X-Query-Limit-Remaining',
+            'X-Query-Limit-Request-Queries'
+        ];
+
+        foreach ($headers as $header) {
+            $limits[$header] = $this->getHeader($header);
+        }
+
+        return $limits;
+    }
+
+    /**
      * Get body.
      *
      * @return string
