@@ -21,7 +21,7 @@ $ composer require artstorm/monkeylearn-api
 * PHP Curl.
 
 
-## Basic usage of MonkeyLearn API PHP Cleint
+## Basic usage of MonkeyLearn API PHP Client
 
 ``` php
 $token = 'monkeylearn-api-token';
@@ -30,4 +30,18 @@ $client = new Artstorm\MonkeyLearn\Client($token);
 $textToClassify = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
 $module = 'module_id';
 $response = $client->classification->classify($textToClassify, $module);
+```
+
+
+## Debug and Sandbox
+
+MonkeyLearn has a Sandbox mode that can be used for custom modules. There is 
+also an option to include debug data in the responses. These options can be 
+enabled with the methods `Client::sandbox()` and `Client::debug()`. The methods
+are chainable.
+
+``` php
+$response = $client->sandbox()->classification->classify($text, $module);
+$response = $client->debug()->classification->classify($text, $module);
+$response = $client->sandbox()->debug()->classification->classify($text, $module);
 ```
