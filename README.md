@@ -4,6 +4,7 @@
 [![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/artstorm/monkeylearn-api-php.svg?style=flat-square)](https://scrutinizer-ci.com/g/artstorm/monkeylearn-api-php/)
 [![Scrutinizer Coverage Status](https://img.shields.io/scrutinizer/coverage/g/artstorm/monkeylearn-api-php/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/artstorm/monkeylearn-api-php/code-structure)
 [![StyleCI](https://styleci.io/repos/31837635/shield?style=flat-square)](https://styleci.io/repos/31837635)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/artstorm/monkeylearn-api-php/master/LICENSE.md)
 
 An easy to use client to consume MonkeyLearn API v2 with PHP.
 
