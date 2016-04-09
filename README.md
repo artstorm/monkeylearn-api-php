@@ -59,3 +59,9 @@ $response = $client->classification->classify($text, $module);
 
 $limits = $response->limits();
 ```
+
+
+## License
+
+The library is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+
